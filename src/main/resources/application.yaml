@@ -1,3 +1,33 @@
 spring:
   application:
     name: wallet-api
+
+  datasource:
+      url: ${DB_URL}
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      driver-class-name: org.postgresql.Driver
+      hikari:
+        maximum-pool-size: ${DB_POOL_SIZE}
+        minimum-idle: ${DB_POOL_MIN_IDLE}
+        connection-timeout: ${DB_CONNECTION_TIMEOUT}
+        max-lifetime: ${DB_MAX_LIFETIME}
+
+
+  liquibase:
+        change-log: classpath:db/changelog/db.changelog-master.yaml
+        enabled: true
+
+  jpa:
+        hibernate:
+          ddl-auto: validate
+
+server:
+  tomcat:
+    threads:
+      max: ${TOMCAT_MAX_THREADS}
+      min-spare: ${TOMCAT_MIN_THREADS}
+    max-connections: ${TOMCAT_MAX_CONNECTIONS}
+    accept-count: ${TOMCAT_ACCEPT_COUNT}
+  http2:
+    enabled: true
