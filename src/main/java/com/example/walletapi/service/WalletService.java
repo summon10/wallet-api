@@ -10,7 +10,7 @@ import java.util.UUID;
 @Service
 public interface WalletService {
 
-    public WalletResponseDTO processOperation (@Valid WalletOperationRequestDTO wallet);
+    public WalletResponseDTO processOperation (WalletOperationRequestDTO wallet);
     public WalletResponseDTO getBalance(UUID walletId);
 
 }

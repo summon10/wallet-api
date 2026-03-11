@@ -27,7 +27,7 @@ public class WalletController {
     }
 
     @GetMapping("/wallets/{walletId}")
-    public ResponseEntity<WalletResponseDTO> getBalance (@PathVariable UUID walletId)
+    public ResponseEntity<WalletResponseDTO> getBalance (@PathVariable @Valid UUID walletId)
     {
         WalletResponseDTO response = walletService.getBalance(walletId);
         return ResponseEntity.ok(response);

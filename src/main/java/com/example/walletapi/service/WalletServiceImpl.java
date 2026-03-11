@@ -4,6 +4,8 @@ import com.example.walletapi.dto.WalletOperationRequestDTO;
 import com.example.walletapi.dto.WalletResponseDTO;
 import com.example.walletapi.entity.OperationType;
 import com.example.walletapi.entity.Wallet;
+import com.example.walletapi.exception.InsufficientFundsException;
+import com.example.walletapi.exception.ResourceNotFoundException;
 import com.example.walletapi.repository.WalletRepo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +20,17 @@ public class WalletServiceImpl implements WalletService {
     private final WalletRepo walletRepo;
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public WalletResponseDTO processOperation(@Valid WalletOperationRequestDTO request) {
+    public WalletResponseDTO processOperation(WalletOperationRequestDTO request) {
 
         Wallet wallet = walletRepo.findById(request.getWalletId())
-                .orElseThrow(() -> new RuntimeException("This wallet does not exists"));
+                .orElseThrow(() -> new ResourceNotFoundException("This wallet does not exists"));
+
 
         if (request.getOperationType() == OperationType.DEPOSIT) {
             wallet.setBalance(wallet.getBalance().add(request.getAmount()));
         } else {
             if (wallet.getBalance().compareTo(request.getAmount()) < 0) {
-                throw new RuntimeException("Non-sufficient funds");
+                throw new InsufficientFundsException("Insufficient funds");
             }
             wallet.setBalance(wallet.getBalance().subtract(request.getAmount()));
         }
@@ -40,7 +43,7 @@ public class WalletServiceImpl implements WalletService {
     @Transactional(readOnly = true)
     public WalletResponseDTO getBalance(UUID walletId) {
         Wallet wallet = walletRepo.findById(walletId)
-                .orElseThrow(() -> new RuntimeException("This wallet does not exists"));
+                .orElseThrow(() -> new ResourceNotFoundException("This wallet does not exists"));
         return new WalletResponseDTO(wallet.getId(),wallet.getBalance());
     }
 }
