@@ -14,7 +14,7 @@ public class WalletExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex) {
-        return new ResponseEntity<>("Data Error, please try again", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -23,7 +23,7 @@ public class WalletExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler(InsufficientFundsException.class)
     @ResponseStatus(HttpStatus.NOT_MODIFIED)
     public ResponseEntity<String> handleInsufficientFundsException(InsufficientFundsException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_MODIFIED);

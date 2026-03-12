@@ -9,11 +9,13 @@ import com.example.walletapi.exception.ResourceNotFoundException;
 import com.example.walletapi.repository.WalletRepo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+@Service
 @RequiredArgsConstructor
 public class WalletServiceImpl implements WalletService {
 

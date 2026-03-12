@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
+
 public interface WalletService {
 
     public WalletResponseDTO processOperation (WalletOperationRequestDTO wallet);
