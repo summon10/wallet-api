@@ -38,7 +38,7 @@ public class WalletServiceImpl implements WalletService {
         }
         Wallet saved = walletRepo.save(wallet);
 
-        return new WalletResponseDTO(saved.getId(), saved.getBalance());
+        return new WalletResponseDTO(saved.getId(), saved.getBalance(), "Operation success");
     }
 
     @Override
@@ -46,6 +46,6 @@ public class WalletServiceImpl implements WalletService {
     public WalletResponseDTO getBalance(UUID walletId) {
         Wallet wallet = walletRepo.findById(walletId)
                 .orElseThrow(() -> new ResourceNotFoundException("This wallet does not exists"));
-        return new WalletResponseDTO(wallet.getId(),wallet.getBalance());
+        return new WalletResponseDTO(wallet.getId(),wallet.getBalance(),"Operation success");
     }
 }
